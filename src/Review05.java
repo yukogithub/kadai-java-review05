@@ -31,10 +31,11 @@ public class Review05 {
             
             // 5,6.Select文の実行と結果を格納／代入
             System.out.print("検索キーワードを入力してください>");
-            String input = keyIn();
+            int input = keyInNum();
             
             // PreparedStatementオブジェクトの?に値をセット
-            pstmt.setString(1,  input);
+            pstmt.setInt(1, input);
+            
             
             rs = pstmt.executeQuery();
             
@@ -69,7 +70,7 @@ public class Review05 {
             }
             if(pstmt != null) {
                 try {
-                    rs.close();
+                    pstmt.close();
                 } catch(SQLException e) {
                     System.err.println("PreparedStatementを閉じるときにエラーが発生しました。");
                     e.printStackTrace();
@@ -77,7 +78,7 @@ public class Review05 {
             }
             if(con != null) {
                 try {
-                    rs.close();
+                    con.close();
                 } catch(SQLException e) {
                     System.err.println("データベース切断時にエラーが発生しました。");
                     e.printStackTrace();
@@ -95,9 +96,20 @@ public class Review05 {
             BufferedReader key = new BufferedReader(new InputStreamReader(System.in));
             line = key.readLine();
         } catch (IOException e) {
-
         }
         return line;
+    }
+    
+    /*
+     * キーボードから入力された値をintで返す　引数：なし　戻り値：int
+     */
+    private static int keyInNum() {
+        int result = 0;
+        try {
+            result = Integer.parseInt(keyIn());
+        } catch (NumberFormatException e) {
+        }
+        return result;
 
     }
 }
